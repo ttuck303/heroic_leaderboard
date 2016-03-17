@@ -27,7 +27,8 @@ function getWorkoutData(){
 
 function parseWorkoutData(workoutData){
   for(var index = 0; index < workoutData.results.length; index ++){
-    console.log(workoutData.results[index]);
-    $("body").append(workoutData.results[index].userFirstName + "<br>");
+    var user = workoutData.results[index];
+    $("tbody").append('<tr><td>'+(index+1)+'</td><td>'+ user.userFirstName +' ' + user.userLastInitial + '</td><td>' + user.tests[0] +'</td></tr>');
+    //$("tbody").append(user.rank + " " + user.userFirstName + " " + user.userLastInitial + "<br>");
   };
 }
