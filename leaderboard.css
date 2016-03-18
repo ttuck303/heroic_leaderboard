@@ -1,4 +1,12 @@
+html{
+  font-family: "Open Sans", sans-serif;
+}
+
 img.responsive-img{
   width: 100px;
   height: 100px;
+}
+
+td, th {
+  text-align: center;
 }

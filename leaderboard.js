@@ -26,6 +26,7 @@ function getWorkoutData(){
 
 
 function parseWorkoutData(workoutData){
+  $("#workout_header h1").append(workoutData.workoutTitle + " Date: " + workoutData.date);
   for(var index = 0; index < workoutData.results.length; index ++){
     var user = workoutData.results[index];
     $("tbody").append('<tr><td>'+(index+1)+'</td><td><img class="responsive-img circle" src="' + user.profileImg + '"></td><td>'+ user.userFirstName +' ' + user.userLastInitial + '</td><td>' + user.tests[0] +'</td></tr>');

@@ -11,17 +11,21 @@
 
     <!-- Compiled and minified JavaScript Materialize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="leaderboard.css">
   </head>
   <body>
     <div class="container">
-      <table>
+      <div id="workout_header">
+        <h1></h1>
+      </div>
+      <table class="bordered">
           <thead>
             <tr>
-              <th data-field="rank">Rank</th>
-              <th data-field="prof_pic"></th>
-              <th data-field="name">Athlete</th>
-              <th data-field="">Reps</th>
+              <th id="rank_column" data-field="rank">Rank</th>
+              <th id="prof_pic_column" data-field="prof_pic"></th>
+              <th id="name_column" data-field="name">Athlete</th>
+              <th id="reps_column" data-field="">Reps</th>
             </tr>
           </thead>
           <tbody>
