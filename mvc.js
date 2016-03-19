@@ -33,18 +33,11 @@ var view = (function(){
 
   function drawRankings(results){
     clearRankings();
-    logSuccess();
-
     for(var index = 0; index < results.length; index ++){
       var user = results[index];
       $tbody.append('<tr><td>'+(user.rank)+'</td><td><img class="responsive-img circle" src="' + user.profileImg + '"></td><td>'+ user.userFirstName +' ' + user.userLastInitial + '</td><td>' + user.tests[0] +'</td></tr>');
       // may want to replace this ugly string with Mustache
     }
-  }
-
-  // for debugging
-  function logSuccess(){
-    console.log("success");
   }
 
   // draw the header box
@@ -69,7 +62,7 @@ var controller = (function( model, view, events ){
       this.events = events;
       this.pagesToCycleThrough = 0; // state variable with the 0-indexed # of pages to cycle through
       this.currentPage = 0; // state variable with the current page
-      this.listingsPerPage = 10; // state var with listings per page, if you choose to change the design
+      this.listingsPerPage = 5; // state var with listings per page, if you choose to change the design
       this.refreshInterval = 5000; // config variable to set the interval at which you switch pages
       this.updateModelInterval = (10*60*1000); // config variable to set the interval at which you refresh the ajax call
     // get the model for the first time and assign the model that info
@@ -111,7 +104,6 @@ var controller = (function( model, view, events ){
     if( numEntries % listingsPerPage == 0){
       pagesToCycleThrough -= 1;
     }
-    console.log("pagesToCycleThrough = " + pagesToCycleThrough);
   }
 
   // intialize timers (for refreshing board and for updating the model, header)
@@ -123,13 +115,8 @@ var controller = (function( model, view, events ){
   function rotateRankings(){
     // have number of chunks
     var firstElementIndex = currentPage*listingsPerPage;
-    var lastElementIndex = firstElementIndex + listingsPerPage - 1;
+    var lastElementIndex = firstElementIndex + listingsPerPage;
     var rankings = model.results.slice(firstElementIndex, lastElementIndex);
-    console.log("firstElementIndex: " + firstElementIndex);
-    console.log("lastElementIndex: "+ lastElementIndex);
-    console.log("rankings: " + rankings);
-    // rotate through the chunks
-    // return them to the rankings vairable
     advanceCurrentPageCounter();
     emitRefresh(rankings);
   }
