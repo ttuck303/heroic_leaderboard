@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+    <title>TrainHeroic Leaderboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script   src="https://code.jquery.com/jquery-2.2.2.min.js"   integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI="   crossorigin="anonymous"></script>
-    <script src="leaderboard.js"></script>
+    <!-- <script src="leaderboard.js"></script> -->
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -11,26 +13,45 @@
 
     <!-- Compiled and minified JavaScript Materialize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+    <!-- Materialize icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Open sans font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom Styles -->
     <link rel="stylesheet" type="text/css" href="leaderboard.css">
   </head>
   <body>
-    <div class="container">
-      <div id="workout_header">
-        <h1></h1>
+    <div class="container" id="leaderboard_module">
+      <div class="z-depth-2" id="workout_header">
+        <h1>
+          <i class="large material-icons">stars</i>
+        </h1>
+        <div class="row">
+          <div class="col l6">
+            <h4 id="date_box"></h4>
+          </div>
+          <div class="col l6">
+            <h4 id="reporting_box"></h4>
+          </div>
+        </div>
       </div>
-      <table class="bordered">
+      <table class="bordered z-depth-2" id="leaderboard">
           <thead>
             <tr>
-              <th id="rank_column" data-field="rank">Rank</th>
+              <th id="rank_column" data-field="rank">RANK</th>
               <th id="prof_pic_column" data-field="prof_pic"></th>
-              <th id="name_column" data-field="name">Athlete</th>
-              <th id="reps_column" data-field="">Reps</th>
+              <th id="name_column" data-field="name">ATHLETE</th>
+              <th id="reps_column" data-field="">REPS</th>
             </tr>
           </thead>
           <tbody>
           </tbody>
         </table>
       </div>
+      <script type="text/javascript" src="pubsub.js"></script>
+      <script type="text/javascript" src="mvc.js"></script>
   </body>
 </html>
