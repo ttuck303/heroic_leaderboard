@@ -56,15 +56,15 @@ var controller = (function( model, view, events ){
   
   // initialize the leaderboard
   function init(){
-      // tells controller about the model and view modules, which need to be included in this page
-      this.model = model;
-      this.view = view;
-      this.events = events;
-      this.pagesToCycleThrough = 0; // state variable with the 0-indexed # of pages to cycle through
-      this.currentPage = 0; // state variable with the current page
-      this.listingsPerPage = 5; // state var with listings per page, if you choose to change the design
-      this.refreshInterval = 5000; // config variable to set the interval at which you switch pages
-      this.updateModelInterval = (10*60*1000); // config variable to set the interval at which you refresh the ajax call
+    // tells controller about the model and view modules, which need to be included in this page
+    this.model = model;
+    this.view = view;
+    this.events = events;
+    this.pagesToCycleThrough = 0; // state variable with the 0-indexed # of pages to cycle through
+    this.currentPage = 0; // state variable with the current page
+    this.listingsPerPage = 5; // state var with listings per page, if you choose to change the design
+    this.refreshInterval = 5000; // config variable to set the interval at which you switch pages
+    this.updateModelInterval = (10*60*1000); // config variable to set the interval at which you refresh the ajax call
     // get the model for the first time and assign the model that info
     updateModel();
     initializeTimers();
