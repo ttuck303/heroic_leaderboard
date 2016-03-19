@@ -1,5 +1,5 @@
 var model = (function(){
-  // getting a model, but it doesn't seem to have the characteristics? need to better understand this problem/
+ // do I even need this?
 })();
 
 var view = (function(){
@@ -38,12 +38,8 @@ var view = (function(){
     for(var index = 0; index < results.length; index ++){
       var user = results[index];
       $tbody.append('<tr><td>'+(user.rank)+'</td><td><img class="responsive-img circle" src="' + user.profileImg + '"></td><td>'+ user.userFirstName +' ' + user.userLastInitial + '</td><td>' + user.tests[0] +'</td></tr>');
+      // may want to replace this ugly string with Mustache
     }
-    // intresting, because really the controller should specify which chunk of the results to include... 
-    // maybe break it up as follows:
-      // only update the header when the model is updated
-      // when refreshing the rankings, only send the results that are relevant
-      // this allows you to do 2 different pubsub events
   }
 
   // for debugging
@@ -74,6 +70,8 @@ var controller = (function( model, view, events ){
       this.pagesToCycleThrough = 0; // state variable with the 0-indexed # of pages to cycle through
       this.currentPage = 0; // state variable with the current page
       this.listingsPerPage = 10; // state var with listings per page, if you choose to change the design
+      this.refreshInterval = 5000; // config variable to set the interval at which you switch pages
+      this.updateModelInterval = (10*60*1000); // config variable to set the interval at which you refresh the ajax call
     // get the model for the first time and assign the model that info
     updateModel();
     initializeTimers();
@@ -118,16 +116,15 @@ var controller = (function( model, view, events ){
 
   // intialize timers (for refreshing board and for updating the model, header)
   function initializeTimers(){
-    var refreshBoardTimer = setInterval(rotateRankings, 3000); // every 10 seconds going to refresh the board
-    var modelUpdateTimer = setInterval(updateModel, (10*60*1000)); // every 10 minutes, get the workout data again and update the workout model
+    var refreshBoardTimer = setInterval(rotateRankings, refreshInterval); 
+    var modelUpdateTimer = setInterval(updateModel, updateModelInterval); 
   };
 
   function rotateRankings(){
     // have number of chunks
-    var results = model.results
     var firstElementIndex = currentPage*listingsPerPage;
     var lastElementIndex = firstElementIndex + listingsPerPage - 1;
-    var rankings = results.slice(firstElementIndex, lastElementIndex);
+    var rankings = model.results.slice(firstElementIndex, lastElementIndex);
     console.log("firstElementIndex: " + firstElementIndex);
     console.log("lastElementIndex: "+ lastElementIndex);
     console.log("rankings: " + rankings);
