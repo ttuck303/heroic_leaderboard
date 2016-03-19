@@ -17,7 +17,7 @@ var events = {
   emit: function (eventName, data) {
     if (this.events[eventName]) {
       this.events[eventName].forEach(function(fn) {
-        console.log("running fn:" + fn + " with data: "+data);
+        //console.log("running fn:" + fn + " with data: "+data); // for debugging
         fn(data);
       });
     }
