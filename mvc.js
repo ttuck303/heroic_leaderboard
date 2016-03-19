@@ -13,6 +13,7 @@ var view = (function(){
 
   // store commonly used DOM elements 
   function cacheDom(){
+ 
     // header elements
     this.$el = $(".container");
     this.$workout_header = this.$el.find("#workout_header");
@@ -25,6 +26,9 @@ var view = (function(){
     this.$leaderboard = this.$el.find("#leaderboard");
     this.$tbody = this.$leaderboard.find("tbody");
 
+    // preloader
+    this.$preloader = this.$el.find(".loading");
+
   }
 
   function clearRankings(){
@@ -32,6 +36,7 @@ var view = (function(){
   }
 
   function drawRankings(results){
+    $preloader.remove();
     clearRankings();
     for(var index = 0; index < results.length; index ++){
       var user = results[index];
@@ -45,7 +50,6 @@ var view = (function(){
     this.$workout_title.html(model["workoutTitle"] + " LEADERS");
     this.$date_box.html("Date: " + model.date);
     this.$reporting_box.html("Reporting: " + model.results.length);
-    this.$displaying.html("<em>(displaying x of y)</em>");
   }
 
   init();
