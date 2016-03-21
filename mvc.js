@@ -110,6 +110,7 @@ var controller = (function( model, view, events ){
     this.updateModelInterval = (10*60*1000); // config variable to set the interval at which you refresh the ajax call
     this.tickerSpeed = 16; // pace at which ticker update is called, about 60hz which is tv refresh rate
     this.tickerItems = [];
+    this.lastUpdate = new Date();
 
     // gets the model data for the first time and starts the timers
     updateModel();
@@ -136,6 +137,7 @@ var controller = (function( model, view, events ){
       },
       timeout: 5000
     });
+    this.lastUpdate = new Date();
   }
 
   // sets model (should this be within the model module?)
@@ -202,6 +204,10 @@ var controller = (function( model, view, events ){
     this.tickerItems.push('<img src="h.png"></img>');
     this.tickerItems.push('DATE: ' + model.date);
     this.tickerItems.push('ATHLETES REPORTING: ' + model.results.length);
+    var workoutInstructions = getWorkoutInstructions(model);
+    this.tickerItems.push('INSTRUCTIONS: <em>' + workoutInstructions +'</em>');
+    this.tickerItems.push("Current Time: " + getCurrentTime());
+    this.tickerItems.push("Last Updated: " + getLastUpdateTime());
     //return this.tickerItems;
   }
 
@@ -211,6 +217,18 @@ var controller = (function( model, view, events ){
     }
   }
 
+  function getWorkoutInstructions(model){
+    return model.tests[0].testInstructions;
+  }
+
+  function getCurrentTime(){
+    var d = new Date();
+    return (d.toLocaleTimeString("en-US"));
+  }
+
+  function getLastUpdateTime(){
+    return (lastUpdate.toLocaleTimeString("en-US"));
+  }
 
   init();
 
