@@ -6,19 +6,25 @@ html{
 h1{
   font-weight: bold;
   margin: 0.5rem 0 0.5rem 0;
+  margin: 0.694vh 0 0.694vh 0;
+  font-size: 5.833vh;
 }
 .container{
   width: 80%;
+  max-width: 3200px;
 }
 
 img.responsive-img{
-  width: 100px;
-  height: 100px;
+  width: 9.259vh;
+  height: 9.259vh;
 }
 
 td, th {
   text-align: center;
   font-size: 2.25rem;
+  font-size: 3.125vh;
+  padding: 15px 5px;
+  padding: 1.38vh 0.46vh;
 }
 
 i{
@@ -27,12 +33,15 @@ i{
 
 #leaderboard{
   margin-top: 2.5rem;
+  margin-top: 3.47vh;
   border-top: 3px solid #0a96c8;
 }
 
 #workout_header {
   margin-top: 1rem;
+  margin-top: 1.388vh;
   padding: 1rem;
+  padding: 1.388vh;
   border-top: 3px solid #0a96c8;
   text-align: center;
 }
@@ -43,6 +52,7 @@ i{
 
 #ticker{
   height: 90px;
+  height: 8.33vh;
   background-color: rgb(31, 36, 42);
   width: 100%;
   position: fixed;
@@ -52,15 +62,22 @@ i{
 
 .ticker_contents{
   font-size: 44px;
+  font-size: 4.074vh;
   color: white;
   display: inline;
   position: relative;
   top: 10px;
+  top: 0.9259vh;
   left: 1920px;
+  left: 100vw;
 }
 
 .ticker_info_unit {
   font-size: 44px;
+  font-size: 4.074vh;
   color: white;
   padding-right: 100px;
+  padding-right: 9.259vh;
+  padding-right: 5.208vw;
+
 }

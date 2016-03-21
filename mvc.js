@@ -61,7 +61,6 @@ var view = (function(){
     clearTicker();
     $ticker_contents.append('<span class="ticker_info_unit">DATE: ' + model.date + '</span>');
     $ticker_contents.append('<span class="ticker_info_unit">ATHLETES REPORTING: ' + model.results.length + '</span>');
-    $ticker_contents.append('<span class="ticker_info_unit">WORKOUT INSTRUCTIONS: ' + model.tests + '</span>');
   }
 
   function clearTicker(){
