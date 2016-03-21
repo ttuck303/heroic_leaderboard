@@ -9,6 +9,7 @@ var view = (function(){
     cacheDom();
     events.on("refreshModel", drawHeader);
     events.on("refreshRankings", drawRankings);
+    events.on("refreshModel", intializeTicker)
   }
 
   // store commonly used DOM elements 
@@ -29,8 +30,13 @@ var view = (function(){
     // preloader
     this.$preloader = this.$el.find(".loading");
 
+    // ticker
+    this.$ticker = this.$el.find("#ticker");
+    this.$ticker_contents = this.$ticker.find(".ticker_contents");
   }
 
+
+  // rankings-related methods
   function clearRankings(){
     $tbody.html('');
   }
@@ -48,8 +54,18 @@ var view = (function(){
   // draw the header box
   function drawHeader(model){
     this.$workout_title.html(model["workoutTitle"] + " LEADERS");
-    this.$date_box.html("Date: " + model.date);
-    this.$reporting_box.html("Reporting: " + model.results.length);
+  }
+
+  // ticker-related methods
+  function intializeTicker(model){
+    clearTicker();
+    $ticker_contents.append('<span class="ticker_info_unit">DATE: ' + model.date + '</span>');
+    $ticker_contents.append('<span class="ticker_info_unit">ATHLETES REPORTING: ' + model.results.length + '</span>');
+    $ticker_contents.append('<span class="ticker_info_unit">WORKOUT INSTRUCTIONS: ' + model.tests + '</span>');
+  }
+
+  function clearTicker(){
+    $ticker_contents.html('');
   }
 
   init();

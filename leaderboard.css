@@ -47,6 +47,7 @@ i{
   width: 100%;
   position: fixed;
   bottom: 0;
+  left: 0;
 }
 
 .ticker_contents{
@@ -56,4 +57,10 @@ i{
   position: relative;
   top: 10px;
   left: 1920px;
+}
+
+.ticker_info_unit {
+  font-size: 44px;
+  color: white;
+  padding-right: 100px;
 }
