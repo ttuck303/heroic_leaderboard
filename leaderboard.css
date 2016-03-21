@@ -36,3 +36,24 @@ i{
   border-top: 3px solid #0a96c8;
   text-align: center;
 }
+
+#subheader{
+  display: none;
+}
+
+#ticker{
+  height: 90px;
+  background-color: rgb(31, 36, 42);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+.ticker_contents{
+  font-size: 44px;
+  color: white;
+  display: inline;
+  position: relative;
+  top: 10px;
+  left: 1920px;
+}

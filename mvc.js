@@ -127,7 +127,7 @@ var controller = (function( model, view, events ){
 
   function advanceCurrentPageCounter(){
     currentPage += 1;
-    if(currentPage > pagesToCycleThrough){
+    if(currentPage >= pagesToCycleThrough){
       currentPage = 0;
     }
   }
