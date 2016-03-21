@@ -204,10 +204,14 @@ var controller = (function( model, view, events ){
     this.tickerItems.push('<img src="h.png"></img>');
     this.tickerItems.push('DATE: ' + model.date);
     this.tickerItems.push('ATHLETES REPORTING: ' + model.results.length);
+    this.tickerItems.push('<img src="h.png"></img>');
     var workoutInstructions = getWorkoutInstructions(model);
     this.tickerItems.push('INSTRUCTIONS: <em>' + workoutInstructions +'</em>');
     this.tickerItems.push("Current Time: " + getCurrentTime());
     this.tickerItems.push("Last Updated: " + getLastUpdateTime());
+    this.tickerItems.push("Average reps: " + getAverageReps(model));
+    this.tickerItems.push('<img src="h.png"></img>');
+
     //return this.tickerItems;
   }
 
@@ -228,6 +232,15 @@ var controller = (function( model, view, events ){
 
   function getLastUpdateTime(){
     return (lastUpdate.toLocaleTimeString("en-US"));
+  }
+
+  // get the average reps, currently mixes rx and sc's
+  function getAverageReps(model){
+    var total = 0;
+    for(var i=0; i < model.results.length; i++){
+      total += Number(model.results[i].tests[0].slice(0, -5));
+    }
+    return Math.round(total/model.results.length * 10)/10;
   }
 
   init();
