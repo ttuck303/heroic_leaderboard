@@ -69,7 +69,11 @@ var view = (function(){
   }
 
   function updateTicker(){
-    $ticker_contents.css({ "left": "-=.15vw" });
+    if($ticker_contents.offset().left < $ticker_contents.width()*-1 ){
+      $ticker_contents.css({"left": '100vw'});
+    } else {
+      $ticker_contents.css({ "left": "-=.15vw" });
+    }
   }
 
 
