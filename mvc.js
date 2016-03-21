@@ -9,7 +9,8 @@ var view = (function(){
     cacheDom();
     events.on("refreshModel", drawHeader);
     events.on("refreshRankings", drawRankings);
-    events.on("refreshModel", intializeTicker)
+    events.on("refreshModel", intializeTicker);
+    events.on("updateTicker", updateTicker);
   }
 
   // store commonly used DOM elements 
@@ -67,6 +68,12 @@ var view = (function(){
     $ticker_contents.html('');
   }
 
+  function updateTicker(){
+    $ticker_contents.css({ "left": "-=.15vw" });
+  }
+
+
+
   init();
   
 })();
@@ -79,16 +86,21 @@ var controller = (function( model, view, events ){
     this.model = model;
     this.view = view;
     this.events = events;
+
+    // state variables 
     this.pagesToCycleThrough = 0; // state variable with the 0-indexed # of pages to cycle through
     this.currentPage = 0; // state variable with the current page
     this.listingsPerPage = 5; // state var with listings per page, if you choose to change the design
     this.refreshInterval = 5000; // config variable to set the interval at which you switch pages
     this.updateModelInterval = (10*60*1000); // config variable to set the interval at which you refresh the ajax call
-    // get the model for the first time and assign the model that info
+    this.tickerSpeed = 16; // pace at which ticker update is called, about 60hz which is tv refresh rate
+    
+    // gets the model data for the first time and starts the timers
     updateModel();
     initializeTimers();
   }
 
+  // ajax call to backend for json workout data
   function updateModel(){
     var aj = $.ajax({
       url: "https://apis.trainheroic.com/public/leaderboard/468425",
@@ -110,12 +122,13 @@ var controller = (function( model, view, events ){
     });
   }
 
-  // sets model (should this be within the model module though?)
+  // sets model (should this be within the model module?)
   function setModel(rawData){
     model = rawData;
     initializeCounter(model.results.length);
     events.emit("refreshModel", model);
   }
+
 
 
   function initializeCounter(numEntries){
@@ -128,16 +141,20 @@ var controller = (function( model, view, events ){
   // intialize timers (for refreshing board and for updating the model, header)
   function initializeTimers(){
     var refreshBoardTimer = setInterval(rotateRankings, refreshInterval); 
-    var modelUpdateTimer = setInterval(updateModel, updateModelInterval); 
+    var modelUpdateTimer = setInterval(updateModel, updateModelInterval);
+    var tickerTimer = setInterval(updateTicker, tickerSpeed); 
   };
 
+  function updateTicker(){
+    events.emit("updateTicker", model);
+  }
+
   function rotateRankings(){
-    // have number of chunks
     var firstElementIndex = currentPage*listingsPerPage;
     var lastElementIndex = firstElementIndex + listingsPerPage;
     var rankings = model.results.slice(firstElementIndex, lastElementIndex);
     advanceCurrentPageCounter();
-    emitRefresh(rankings);
+    emitRankingRefresh(rankings);
   }
 
   function advanceCurrentPageCounter(){
@@ -147,8 +164,8 @@ var controller = (function( model, view, events ){
     }
   }
 
-  // send a refresh event
-  function emitRefresh(rankings){
+  // send a ranking refresh event
+  function emitRankingRefresh(rankings){
     events.emit("refreshRankings", rankings);
   }
 
