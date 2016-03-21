@@ -1,6 +1,13 @@
 var model = (function(){
- // do I even need this?
+ // don't think I need this because the model is in the backend json data
+ // but I will leave it here for the sake of completeness
+ // and in case it needs to be built out
 })();
+
+
+
+
+
 
 var view = (function(){
 
@@ -9,8 +16,9 @@ var view = (function(){
     cacheDom();
     events.on("refreshModel", drawHeader);
     events.on("refreshRankings", drawRankings);
-    events.on("refreshModel", intializeTicker);
-    events.on("updateTicker", updateTicker);
+    events.on("animateTicker", animateTicker);
+    events.on("clearTicker", clearTicker);
+    events.on("appendToTicker", appendToTicker);
   }
 
   // store commonly used DOM elements 
@@ -48,7 +56,7 @@ var view = (function(){
     for(var index = 0; index < results.length; index ++){
       var user = results[index];
       $tbody.append('<tr><td>'+(user.rank)+'</td><td><img class="responsive-img circle" src="' + user.profileImg + '"></td><td>'+ user.userFirstName +' ' + user.userLastInitial + '</td><td>' + user.tests[0] +'</td></tr>');
-      // may want to replace this ugly string with Mustache
+      // TODO: replace this ugly string with Mustache
     }
   }
 
@@ -58,29 +66,32 @@ var view = (function(){
   }
 
   // ticker-related methods
-  function intializeTicker(model){
-    clearTicker();
-    $ticker_contents.append('<span class="ticker_info_unit">DATE: ' + model.date + '</span>');
-    $ticker_contents.append('<span class="ticker_info_unit">ATHLETES REPORTING: ' + model.results.length + '</span>');
-  }
-
   function clearTicker(){
     $ticker_contents.html('');
   }
 
-  function updateTicker(){
+  // provides the looping animation
+  function animateTicker(){
     if($ticker_contents.offset().left < $ticker_contents.width()*-1 ){
-      $ticker_contents.css({"left": '100vw'});
+      $ticker_contents.css({"left": '100vw'}); 
     } else {
       $ticker_contents.css({ "left": "-=.15vw" });
     }
   }
 
-
+  // adds a single item to the ticker contents div
+  function appendToTicker(item){
+    $ticker_contents.append('<span class="ticker_info_unit" >' + item + '</span>');
+  }
 
   init();
   
 })();
+
+
+
+
+
 
 var controller = (function( model, view, events ){
   
@@ -98,7 +109,8 @@ var controller = (function( model, view, events ){
     this.refreshInterval = 5000; // config variable to set the interval at which you switch pages
     this.updateModelInterval = (10*60*1000); // config variable to set the interval at which you refresh the ajax call
     this.tickerSpeed = 16; // pace at which ticker update is called, about 60hz which is tv refresh rate
-    
+    this.tickerItems = [];
+
     // gets the model data for the first time and starts the timers
     updateModel();
     initializeTimers();
@@ -130,10 +142,11 @@ var controller = (function( model, view, events ){
   function setModel(rawData){
     model = rawData;
     initializeCounter(model.results.length);
+    initializeTicker(model); // every time we update the model, we also want to update the ticker
     events.emit("refreshModel", model);
   }
 
-
+  
 
   function initializeCounter(numEntries){
     pagesToCycleThrough = Math.round(numEntries / listingsPerPage);
@@ -146,13 +159,11 @@ var controller = (function( model, view, events ){
   function initializeTimers(){
     var refreshBoardTimer = setInterval(rotateRankings, refreshInterval); 
     var modelUpdateTimer = setInterval(updateModel, updateModelInterval);
-    var tickerTimer = setInterval(updateTicker, tickerSpeed); 
+    var tickerTimer = setInterval(animateTicker, tickerSpeed); 
   };
 
-  function updateTicker(){
-    events.emit("updateTicker", model);
-  }
 
+  // rankings methods
   function rotateRankings(){
     var firstElementIndex = currentPage*listingsPerPage;
     var lastElementIndex = firstElementIndex + listingsPerPage;
@@ -172,6 +183,34 @@ var controller = (function( model, view, events ){
   function emitRankingRefresh(rankings){
     events.emit("refreshRankings", rankings);
   }
+
+  // ticker-related controller methods
+
+  function initializeTicker(model){
+    events.emit("clearTicker");
+    parseModelForTicker(model);
+    appendDataToTicker(this.tickerItems); // try tickerItems, not sure if you need the this.
+  }
+
+  function animateTicker(){
+    events.emit("animateTicker");
+  }
+
+  // sorts through model and returns an array of 1-line chunks for the ticker
+  function parseModelForTicker(model){
+    this.tickerItems = [];
+    this.tickerItems.push('<img src="h.png"></img>');
+    this.tickerItems.push('DATE: ' + model.date);
+    this.tickerItems.push('ATHLETES REPORTING: ' + model.results.length);
+    //return this.tickerItems;
+  }
+
+  function appendDataToTicker(items){
+    for(var i = 0; i < items.length; i++){
+      events.emit("appendToTicker", items[i]);
+    }
+  }
+
 
   init();
 

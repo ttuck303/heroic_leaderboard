@@ -80,5 +80,10 @@ i{
   padding-right: 100px;
   padding-right: 9.259vh;
   padding-right: 5.208vw;
-
 }
+
+.ticker_info_unit img {
+ height: 4.0vh;
+ margin-top: 1vh;
+}
+
